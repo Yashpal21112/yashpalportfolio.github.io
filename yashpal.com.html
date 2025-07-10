@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yashpal - Web Designer</title>
+  <style>
+   
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --theme: #00d4ff;
+      --light: #e0e0e0;
+      --muted: #b0b0b0;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--light);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    
+    h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+    h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
+    h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+    
+    p {
+      font-size: clamp(1rem, 1.2vw, 1.1rem);
+      margin-bottom: 1.5rem;
+      color: var(--muted);
+    }
+    
+    /* Layout */
+    .container {
+      width: 100%;
+      padding: 0 1.5rem;
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+      .container { max-width: 720px; }
+    }
+    
+    @media (min-width: 992px) {
+      .container { max-width: 960px; }
+    }
+    
+    @media (min-width: 1200px) {
+      .container { max-width: 1140px; }
+    }
+    
+    section {
+      padding: 6rem 0;
+      position: relative;
+    }
+    
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.2rem 0;
+      background-color: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: var(--transition);
+    }
+    
+    .navbar.scrolled {
+      padding: 0.8rem 0;
+      background-color: rgba(10, 10, 10, 0.95);
+    }
+    
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-brand {
+      color: var(--theme);
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .navbar-toggler {
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+    }
+    
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    
+    .nav-link {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: var(--transition);
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--theme);
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover {
+      color: var(--theme);
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .social-icon {
+      color: var(--light);
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+    
+    .social-icon:hover {
+      color: var(--theme);
+      transform: translateY(-3px);
+    }
+    
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('assets/img/bg_design.jpg') no-repeat center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, rgba(0,0,0,0) 70%);
+      animation: pulse 8s infinite alternate;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-title {
+      margin-bottom: 1.5rem;
+      animation: slideUp 1s ease-out;
+    }
+    
+    .hero-subtitle {
+      margin-bottom: 2.5rem;
+      animation: slideUp 1s ease-out 0.2s forwards;
+      opacity: 0;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      animation: fadeIn 1s ease-out 0.4s forwards;
+      opacity: 0;
+    }
+    
+    .btn-outline {
+      color: var(--theme);
+      border: 2px solid var(--theme);
+      background: transparent;
+    }
+    
+    .btn-outline:hover {
+      background: var(--theme);
+      color: var(--bg-dark);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 212, 255, 0.2);
+    }
+    
+    /* About Section */
+    .about {
+      background-color: var(--bg-dark);
+    }
+    
+    .about-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    @media (min-width: 992px) {
+      .about-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .about-img {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transform: perspective(1000px) rotateY(-10deg);
+      transition: var(--transition);
+      animation: fadeInLeft 1s ease-out;
+    }
+    
+    .about-img:hover {
+      transform: perspective(1000px) rotateY(0deg);
+    }
+    
+    .about-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .about-content {
+      animation: fadeInRight 1s ease-out;
+    }
+    
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: var(--theme);
+    }
+    
+    .skills {
+      margin-top: 2rem;
+    }
+    
+    .skill-item {
+      margin-bottom: 1.5rem;
+    }
+    
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .skill-name {
+      font-weight: 600;
+    }
+    
+    .skill-percent {
+      color: var(--theme);
+    }
+    
+    .skill-bar {
+      height: 8px;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .skill-progress {
+      height: 100%;
+      background-color: var(--theme);
+      border-radius: 4px;
+      position: relative;
+      width: 0;
+      transition: width 1.5s ease-out;
+    }
+    
+    /* Contact Section */
+    .contact {
+      background-color: var(--bg-darker);
+    }
+    
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    @media (min-width: 768px) {
+      .contact-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .contact-form {
+      animation: fadeInLeft 1s ease-out;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background-color: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.5rem;
+      color: var(--light);
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--theme);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+    }
+    
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .btn-primary {
+      background-color: var(--theme);
+      color: var(--bg-dark);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn-primary:hover {
+      background-color: transparent;
+      color: var(--theme);
+      border: 2px solid var(--theme);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 212, 255, 0.2);
+    }
+    
+    .contact-info {
+      animation: fadeInRight 1s ease-out;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    
+    .contact-icon {
+      font-size: 1.5rem;
+      color: var(--theme);
+      margin-right: 1rem;
+      margin-top: 0.3rem;
+    }
+    
+    .contact-text h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: #080808;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    
+    .footer-text {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    /* Animations */
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 0.5; }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .navbar-toggler {
+        display: block;
+      }
+      
+      .navbar-menu {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-darker);
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0;
+        clip-path: circle(0px at 90% -10%);
+        transition: all 0.5s ease-out;
+        pointer-events: none;
+      }
+      
+      .navbar-menu.active {
+        clip-path: circle(1000px at 90% -10%);
+        pointer-events: all;
+      }
+      
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+      
+      section {
+        padding: 4rem 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .about-img {
+        max-width: 80%;
+        margin: 0 auto;
+      }
+    }
+    .contact-text a{
+      text-decoration: none;
+      color: #b0b0b0;
+    }
+    .video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.video-background video {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="#" class="navbar-brand">Yashpal</a>
+      <button class="navbar-toggler" id="navbar-toggler">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <div class="navbar-menu" id="navbar-menu">
+        <ul class="nav-links">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="#" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 496 512" fill="currentColor">
+              <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.2-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"></path>
+            </svg>
+          </a>
+          <a href="#" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor">
+              <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
+            </svg>
+          </a>
+          <a href="#" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor">
+              <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+ 
+<section id="home" class="hero">
+  <div class="video-background">
+    <video autoplay muted loop playsinline>
+      <source src="2887463-hd_1920_1080_25fps.mp4" type="video/mp4">
+      <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coding background">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+  <div class="container hero-content">
+    <h1 class="hero-title">I'm <span style="color: var(--theme);">Yashpal</span></h1>
+    <p class="hero-subtitle">Web Designer & Frontend Developer</p>
+    <a href="#about" class="btn btn-outline">Explore My Work</a>
+  </div>
+</section>
+  <section id="about" class="about">
+    <div class="container">
+      <h2 class="section-title" style="color: var(--theme);">About Me</h2>
+      <div class="about-container">
+        <div class="about-img">
+          <img src="" alt="Yashpal">
+        </div>
+        <div class="about-content">
+          <p>I craft pixel-perfect, responsive websites with a focus on clean design and intuitive user experiences. My passion lies in turning ideas into functional, visually appealing digital products.</p>
+          
+          <div class="skills">
+            <h3>My Core Skills</h3>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">HTML</span>
+                <span class="skill-percent">100%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 100%;"></div>
+              </div>
+            </div>
+            
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">CSS</span>
+                <span class="skill-percent">100%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 100%;"></div>
+              </div>
+            </div>
+            
+            <div class="skill-item">
+              <div class="skill-info"> 
+                <span class="skill-name">JavaScript</span>
+                <span class="skill-percent">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 80%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title" style="color: var(--theme); text-align: center;">Get In Touch</h2>
+      <div class="contact-container">
+        <div class="contact-form">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 512 512" fill="var(--theme)">
+                <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"></path>
+              </svg>
+            </div>
+            <div class="contact-text">
+              <h3>Email</h3>
+              <p>yashpal@example.com</p>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 512 512" fill="var(--theme)">
+                <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"></path>
+              </svg>
+            </div>
+            <div class="contact-text">
+              <h3>Phone</h3>
+              <p><a href="tel:8708204958"> +91 8708204958</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">&copy; 2025 Yashpal. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
